@@ -24,6 +24,7 @@ Instagram / TikTok / YouTube Shorts.
 | ID                            | What it is                                                                   |
 | ----------------------------- | ---------------------------------------------------------------------------- |
 | `LaunchTeaser`                | 19.5s cinematic launch teaser with score, sound design and voiceover.        |
+| `Fifteen`                     | 15s motion study: type, form, 3D, data and finale chapters, 160 BPM score. `npm run fifteen` |
 | `Story`                       | Template: text scenes joined by transitions. Edit everything in Studio's props panel. |
 | `Showcase / TransitionsCSS`   | Plays every CSS transition, ending with a light-leak cut.                   |
 | `Showcase / TransitionsWebGL` | Plays every WebGL shader transition.                                         |

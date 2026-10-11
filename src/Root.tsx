@@ -12,6 +12,8 @@ import {
   storySchema,
 } from "./compositions/story/Story";
 import { VIDEO } from "./config";
+import { Fifteen } from "./fifteen/Fifteen";
+import { DURATION_IN_FRAMES as FIFTEEN_FRAMES } from "./fifteen/timeline";
 import { LaunchTeaser, launchTeaserSchema } from "./teaser/LaunchTeaser";
 import { DURATION_IN_FRAMES } from "./teaser/timeline";
 
@@ -27,6 +29,12 @@ export const RemotionRoot: React.FC = () => {
         durationInFrames={DURATION_IN_FRAMES}
         schema={launchTeaserSchema}
         defaultProps={{ voiceover: true }}
+      />
+      <Composition
+        id="Fifteen"
+        component={Fifteen}
+        {...VIDEO}
+        durationInFrames={FIFTEEN_FRAMES}
       />
       <Composition
         id="Story"

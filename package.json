@@ -13,7 +13,8 @@
     "lint": "eslint src && tsc",
     "teaser": "scripts/render-teaser.sh",
     "teaser:audio": "python3 scripts/audio/build_audio.py",
-    "teaser:vo": "python3 scripts/audio/guide_vo.py"
+    "teaser:vo": "python3 scripts/audio/guide_vo.py",
+    "fifteen": "scripts/render-fifteen.sh"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "5.3.0",

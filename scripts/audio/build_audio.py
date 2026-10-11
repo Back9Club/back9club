@@ -382,9 +382,10 @@ def pluck(freq, dur=0.32, cutoff=900.0, seed=0):
 
 def pad_layer(notes_by_time, t_abs, cutoff_curve):
     """Detuned saw pad following (start, end, [notes]) chords, low-passed."""
-    out = np.zeros(N)
+    n = len(t_abs)
+    out = np.zeros(n)
     for start, end, notes in notes_by_time:
-        i0, i1 = n_of(start), min(n_of(end), N)
+        i0, i1 = n_of(start), min(n_of(end), n)
         seg_t = t_abs[i0:i1]
         seg = np.zeros(i1 - i0)
         for note in notes:
@@ -396,10 +397,10 @@ def pad_layer(notes_by_time, t_abs, cutoff_curve):
         w[-fade:] = np.linspace(1, 0, fade)
         out[i0:i1] += seg * w / len(notes) ** 0.5
     # Block-wise time-varying low-pass driven by the automation curve.
-    res = np.zeros(N)
+    res = np.zeros(n)
     zi = None
-    for i in range(0, N, 512):
-        f = float(cutoff_curve[min(i + 256, N - 1)])
+    for i in range(0, n, 512):
+        f = float(cutoff_curve[min(i + 256, n - 1)])
         sos = butter(2, f, "low", fs=SR, output="sos")
         if zi is None:
             zi = sosfilt_zi(sos) * 0
@@ -648,18 +649,19 @@ def lufs(x):
 def limiter_gain(x, ceiling_db=CEILING_DB, lookahead=0.005, release=0.08):
     """Gain curve for a look-ahead peak limiter (4x oversampled peak detection)."""
     ceiling = 10 ** (ceiling_db / 20)
+    n = x.shape[1]
     over = np.stack([resample_poly(c, 4, 1) for c in x])
-    peak = np.abs(over).max(axis=0).reshape(-1, 4).max(axis=1)[:N]
+    peak = np.abs(over).max(axis=0).reshape(-1, 4).max(axis=1)[:n]
     need = np.minimum(1.0, ceiling / np.maximum(peak, 1e-9))
     la = n_of(lookahead)
     # Look-ahead: the gain reaches its target before the peak arrives.
     padded = np.concatenate([need, np.ones(la)])
-    target = sliding_window_view(padded, la + 1).min(axis=1)[:N]
-    g = np.empty(N)
+    target = sliding_window_view(padded, la + 1).min(axis=1)[:n]
+    g = np.empty(n)
     cur = 1.0
     r_coef = np.exp(-1 / (release * SR))
     a_coef = np.exp(-1 / (lookahead * SR / 3))
-    for i in range(N):
+    for i in range(n):
         tgt = target[i]
         cur = a_coef * cur + (1 - a_coef) * tgt if tgt < cur else r_coef * cur + (1 - r_coef) * tgt
         g[i] = min(cur, tgt)

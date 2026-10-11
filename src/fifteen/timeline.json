@@ -1,0 +1,30 @@
+{
+  "fps": 30,
+  "durationInFrames": 450,
+  "bpm": 160,
+  "cuts": [3, 6, 9, 12],
+  "cues": {
+    "lettersStart": 0.3,
+    "letterStagger": 0.07,
+    "isJust": 0.95,
+    "math": 1.5,
+    "slice": 2.25,
+    "gridIn": 3.0,
+    "gridSquare": 3.75,
+    "gridDiamond": 4.5,
+    "gridRipple": 5.25,
+    "cubeIn": 6.0,
+    "cubeExplode": 7.125,
+    "cubeRejoin": 8.25,
+    "countStart": 9.2,
+    "countEnd": 11.25,
+    "barsStart": 9.375,
+    "barStagger": 0.1875,
+    "lineDraw": 10.5,
+    "burst": 12.0,
+    "stat1": 12.75,
+    "stat2": 13.5,
+    "stat3": 14.25,
+    "credit": 14.45
+  }
+}

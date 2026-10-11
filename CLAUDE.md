@@ -26,8 +26,12 @@ Remotion 4 project for vertical (9:16) motion graphics. React + TypeScript.
 
 ## Layout
 
-- `src/Root.tsx`: composition registry (`LaunchTeaser`, `Story`,
+- `src/Root.tsx`: composition registry (`LaunchTeaser`, `Fifteen`, `Story`,
   `Showcase/TransitionsCSS`, `Showcase/TransitionsWebGL`)
+- `src/fifteen/`: FIFTEEN, a 15s motion study (chapters in a `TransitionSeries`
+  centred on downbeat cuts, countdown HUD). Cues in `src/fifteen/timeline.json`,
+  soundtrack from `scripts/audio/build_fifteen.py` (reuses the instruments in
+  `build_audio.py`). `npm run fifteen` renders `out/fifteen.mp4`.
 - `src/motion/`: easing, timing, the `TRANSITIONS` catalog, and custom
   presentations (`zoomThrough`, `blurDissolve`, `whipPan`, `cardStack`,
   `cardExpand`)
