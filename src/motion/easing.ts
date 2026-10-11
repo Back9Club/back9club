@@ -9,6 +9,8 @@ export const EASE = {
   outCubic: Easing.bezier(0.33, 1, 0.68, 1),
   /** Soft start, fast exit. For things leaving the frame. */
   inExpo: Easing.bezier(0.7, 0, 0.84, 0),
+  /** Gentler exit acceleration than inExpo. */
+  inCubic: Easing.bezier(0.32, 0, 0.67, 0),
   /** Slow-fast-slow. The classic "motion graphics" transition curve. */
   inOutExpo: Easing.bezier(0.87, 0, 0.13, 1),
   /** Slightly softer than inOutExpo; great for wipes and pushes. */

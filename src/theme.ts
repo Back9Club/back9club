@@ -13,6 +13,8 @@ export const COLORS = {
 export const FONTS = {
   display: "Inter Tight",
   body: "Inter",
+  /** Variable width: pair with fontStretch, e.g. "70%" for condensed. */
+  condensed: "Archivo",
 } as const;
 
 // Type scale for a 1080px-wide frame (headline >= 84px, supporting >= 44px).

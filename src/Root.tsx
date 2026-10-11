@@ -12,12 +12,22 @@ import {
   storySchema,
 } from "./compositions/story/Story";
 import { VIDEO } from "./config";
+import { LaunchTeaser, launchTeaserSchema } from "./teaser/LaunchTeaser";
+import { DURATION_IN_FRAMES } from "./teaser/timeline";
 
 // Each <Composition> is an entry in the sidebar.
 // Every composition is 9:16 (1080×1920 @ 30fps): always spread {...VIDEO}.
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="LaunchTeaser"
+        component={LaunchTeaser}
+        {...VIDEO}
+        durationInFrames={DURATION_IN_FRAMES}
+        schema={launchTeaserSchema}
+        defaultProps={{ voiceover: true }}
+      />
       <Composition
         id="Story"
         component={Story}

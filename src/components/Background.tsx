@@ -35,7 +35,7 @@ export const Background: React.FC<{
 // Fine static film grain. Dithers gradients so they don't band after
 // Instagram / TikTok re-compress the video. The noise is an SVG tile used as a
 // background image, so Chrome rasterizes it once instead of on every frame.
-const GRAIN_TILE = `url("data:image/svg+xml,${encodeURIComponent(
+export const GRAIN_TILE = `url("data:image/svg+xml,${encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256">' +
     '<filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>' +
     '<feColorMatrix type="saturate" values="0"/></filter>' +

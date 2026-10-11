@@ -11,6 +11,10 @@ cd "$CLAUDE_PROJECT_DIR"
 
 npm install --no-audit --no-fund --loglevel=error > /dev/null
 
+# Python libraries for the teaser soundtrack (scripts/audio/build_audio.py).
+python3 -c "import numpy, scipy" 2> /dev/null \
+  || pip install --quiet --disable-pip-version-check numpy scipy > /dev/null 2>&1
+
 # Remotion downloads its browser from remotion.media, which the sandbox network
 # policy blocks. Fetch the exact Chrome version this Remotion release is tested
 # against from Google's Chrome for Testing CDN instead.

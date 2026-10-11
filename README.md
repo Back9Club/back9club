@@ -23,9 +23,30 @@ Instagram / TikTok / YouTube Shorts.
 
 | ID                            | What it is                                                                   |
 | ----------------------------- | ---------------------------------------------------------------------------- |
+| `LaunchTeaser`                | 19.5s cinematic launch teaser with score, sound design and voiceover.        |
 | `Story`                       | Template: text scenes joined by transitions. Edit everything in Studio's props panel. |
 | `Showcase / TransitionsCSS`   | Plays every CSS transition, ending with a light-leak cut.                   |
 | `Showcase / TransitionsWebGL` | Plays every WebGL shader transition.                                         |
+
+## Launch teaser
+
+```bash
+npm run teaser             # render out/back9club-launch-teaser(-no-vo).mp4
+npm run teaser -- --audio  # rebuild the soundtrack first, then render
+```
+
+- Timing for every scene, word, hit and voice line: `src/teaser/timeline.json`
+- Scenes and components: `src/teaser/`
+- Audio assets: `public/audio/` (`vo/` voice lines, `sfx/` one-shots,
+  `stems/` music / sfx / vo, `mix.wav` master, `mix-no-vo.wav`)
+- Music and sound design are synthesised from scratch by
+  `scripts/audio/build_audio.py` (Python 3 with numpy and scipy).
+
+**Replacing the voiceover.** The voice lines in `public/audio/vo/` are a
+synthetic guide voice for timing. Record or generate the real read, export each
+line as a WAV with the same file name, and run `npm run teaser -- --audio`.
+Each line starts at the time listed in `timeline.json`; the music ducks under
+it automatically.
 
 ## Transitions
 

@@ -26,8 +26,8 @@ Remotion 4 project for vertical (9:16) motion graphics. React + TypeScript.
 
 ## Layout
 
-- `src/Root.tsx`: composition registry (`Story`, `Showcase/TransitionsCSS`,
-  `Showcase/TransitionsWebGL`)
+- `src/Root.tsx`: composition registry (`LaunchTeaser`, `Story`,
+  `Showcase/TransitionsCSS`, `Showcase/TransitionsWebGL`)
 - `src/motion/`: easing, timing, the `TRANSITIONS` catalog, and custom
   presentations (`zoomThrough`, `blurDissolve`, `whipPan`, `cardStack`,
   `cardExpand`)
@@ -35,6 +35,29 @@ Remotion 4 project for vertical (9:16) motion graphics. React + TypeScript.
   `SafeArea`, `RevealText` (kinetic type), `LightLeakOverlay`
 - `src/compositions/`: `story/` (editable template driven by a zod schema)
   and `showcase/` (plays every transition)
+
+## Launch teaser (`LaunchTeaser`)
+
+19.5s / 585 frames. `src/teaser/timeline.json` is the single source of truth
+for every cue (seconds), read by both the scenes (`src/teaser/timeline.ts`,
+`useTime()` gives absolute seconds inside any `<Scene>`) and the audio build.
+Move a cue there, then rebuild audio and re-render; never hard-code times.
+
+- Scenes: `src/teaser/scenes/` (Hook, BrandReveal, Opening, HowToPlay,
+  BigStatement, FinalTeaser). Components: `src/teaser/components/`.
+- Logo: `src/brand/logo-paths.ts`, traced from
+  `public/brand/back9club-logo-original.png` by `scripts/trace-logo.py`
+  (needs `apt install potrace`). Use the `Logo` component; don't redraw it.
+- Audio: `scripts/audio/build_audio.py` synthesises the score and sound design
+  (numpy/scipy), ducks music under the voice, masters to -14 LUFS / -1.2 dBTP
+  and writes `public/audio/{stems,sfx}/`, `mix.wav`, `mix-no-vo.wav`.
+- Voiceover: `public/audio/vo/<id>.wav` (ids in `timeline.json`). The current
+  files are a GUIDE voice from `scripts/audio/guide_vo.py` (MBROLA en1, needs
+  `apt install espeak-ng mbrola mbrola-en1 sox`): natural TTS hosts
+  (huggingface.co, ElevenLabs, OpenAI) are blocked in the cloud sandbox. To use
+  a real voice, replace those WAVs (same names) and run `npm run teaser -- --audio`.
+- `npm run teaser` renders and exports `out/back9club-launch-teaser.mp4` and
+  `out/back9club-launch-teaser-no-vo.mp4` (exactly 19.5s; ~2 min here).
 
 ## Commands
 

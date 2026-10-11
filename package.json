@@ -10,9 +10,13 @@
     "render": "remotion render",
     "still": "remotion still",
     "upgrade": "remotion upgrade",
-    "lint": "eslint src && tsc"
+    "lint": "eslint src && tsc",
+    "teaser": "scripts/render-teaser.sh",
+    "teaser:audio": "python3 scripts/audio/build_audio.py",
+    "teaser:vo": "python3 scripts/audio/guide_vo.py"
   },
   "dependencies": {
+    "@fontsource-variable/archivo": "5.3.0",
     "@fontsource-variable/inter": "5.3.0",
     "@fontsource-variable/inter-tight": "5.3.0",
     "@remotion/animation-utils": "4.0.534",

@@ -1,0 +1,93 @@
+{
+  "fps": 30,
+  "durationInFrames": 585,
+  "bpm": 120,
+  "scenes": {
+    "hook": [0, 3.5],
+    "brand": [3.5, 6.5],
+    "opening": [6.5, 9.3],
+    "play": [9.3, 12.4],
+    "statement": [12.4, 16.6],
+    "final": [16.6, 19.5]
+  },
+  "cues": {
+    "trajectoryStart": 0.2,
+    "trajectoryEnd": 1.75,
+    "hastings": 0.75,
+    "golfChange": 1.8,
+    "wipeOut": 3.3,
+    "arcsStart": 3.5,
+    "logoLand": 4.5,
+    "tagline": 5.5,
+    "ringsExpand": 6.3,
+    "opening": 7.0,
+    "early": 7.5,
+    "digitsLand": 8.0,
+    "splitLine": 9.3,
+    "memberships": 9.4,
+    "walkIns": 10.4,
+    "riser": 11.4,
+    "drop": 12.4,
+    "taking": 12.9,
+    "over": 13.4,
+    "hastings2": 13.9,
+    "golfScene": 14.4,
+    "clear": 16.2,
+    "logoFinal": 16.8,
+    "watchThisSpace": 17.3,
+    "footer": 17.9,
+    "finalHit": 18.5
+  },
+  "vo": [
+    {
+      "id": "01-hastings",
+      "text": "Hastings.",
+      "at": 0.8
+    },
+    {
+      "id": "02-golf-is-about-to-change",
+      "text": "Golf is about to change.",
+      "at": 1.85
+    },
+    {
+      "id": "03-the-back-9-club",
+      "text": "The Back Nine Club.",
+      "at": 4.55
+    },
+    {
+      "id": "04-opening-early",
+      "text": "Opening early",
+      "at": 6.9
+    },
+    {
+      "id": "05-twenty-twenty-seven",
+      "text": "twenty twenty-seven.",
+      "at": 7.75
+    },
+    {
+      "id": "06-memberships",
+      "text": "Memberships",
+      "at": 9.38
+    },
+    {
+      "id": "07-and-walk-ins-available",
+      "text": "and walk-ins available.",
+      "at": 10.45
+    },
+    {
+      "id": "08-were-taking-over",
+      "text": "We're taking over",
+      "at": 12.75
+    },
+    {
+      "id": "09-hastings-golf-scene",
+      "text": "Hastings' golf scene.",
+      "at": 13.85
+    },
+    {
+      "id": "10-watch-this-space",
+      "text": "Watch this space.",
+      "at": 17.3
+    }
+  ]
+}
