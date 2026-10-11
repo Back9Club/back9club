@@ -63,5 +63,7 @@ Remotion work. Restore or refresh them with `npx skills update`.
   `@remotion/effects`, `LightLeakOverlay`) need `--gl=swangle`. Without it they
   fail fast with "Failed to acquire WebGL2 context". swangle is about 4×
   slower, so leave it off for CSS-only renders.
-- Rendering runs at roughly 10 frames/s for CSS-only scenes and 1 frame/s with
-  swangle. Check a few frames with `--frames` before rendering a full video.
+- Measured render speed here: CSS-only about 9 frames/s (10s of video in
+  about 30s). With `--gl=swangle` it drops to about 1.4 frames/s, and to about
+  0.2 frames/s while WebGL shader transitions are on screen. Check a few frames
+  with `--frames` before rendering a full video.
