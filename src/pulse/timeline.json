@@ -1,0 +1,15 @@
+{
+  "fps": 30,
+  "durationInFrames": 450,
+  "bpm": 128,
+  "sections": [0, 3.75, 7.5, 11.25, 15],
+  "cues": {
+    "riser": 6.5625,
+    "drop": 7.5,
+    "outro": 11.25,
+    "title1": 11.72,
+    "title2": 12.19,
+    "finalChord": 13.125,
+    "caption": 13.3
+  }
+}
