@@ -1,0 +1,44 @@
+{
+  "name": "back9club-motion",
+  "version": "1.0.0",
+  "description": "Back 9 Club motion graphics (Remotion, 9:16 vertical)",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "remotion studio",
+    "build": "remotion bundle",
+    "render": "remotion render",
+    "still": "remotion still",
+    "upgrade": "remotion upgrade",
+    "lint": "eslint src && tsc"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "5.3.0",
+    "@fontsource-variable/inter-tight": "5.3.0",
+    "@remotion/animation-utils": "4.0.534",
+    "@remotion/cli": "4.0.534",
+    "@remotion/effects": "4.0.534",
+    "@remotion/fonts": "4.0.534",
+    "@remotion/google-fonts": "4.0.534",
+    "@remotion/layout-utils": "4.0.534",
+    "@remotion/media": "4.0.534",
+    "@remotion/motion-blur": "4.0.534",
+    "@remotion/noise": "4.0.534",
+    "@remotion/paths": "4.0.534",
+    "@remotion/shapes": "4.0.534",
+    "@remotion/transitions": "4.0.534",
+    "@remotion/zod-types": "4.0.534",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.534",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@remotion/eslint-config-flat": "4.0.534",
+    "@types/react": "19.2.18",
+    "@types/web": "0.0.358",
+    "eslint": "9.39.5",
+    "prettier": "3.9.10",
+    "typescript": "5.9.3"
+  }
+}
