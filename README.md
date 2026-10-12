@@ -23,11 +23,33 @@ Instagram / TikTok / YouTube Shorts.
 
 | ID                            | What it is                                                                   |
 | ----------------------------- | ---------------------------------------------------------------------------- |
+| `Advert`                      | 18s premium advert: 3D golf ball strike, statement, 2027, access, neon logo reveal. `npm run advert` |
 | `LaunchTeaser`                | 19.5s cinematic launch teaser with score, sound design and voiceover.        |
 | `Fifteen`                     | 15s motion study: type, form, 3D, data and finale chapters, 160 BPM score. `npm run fifteen` |
 | `Story`                       | Template: text scenes joined by transitions. Edit everything in Studio's props panel. |
 | `Showcase / TransitionsCSS`   | Plays every CSS transition, ending with a light-leak cut.                   |
 | `Showcase / TransitionsWebGL` | Plays every WebGL shader transition.                                         |
+
+## Advert
+
+```bash
+npm run advert                     # render out/back9club-advert.mp4 (exactly 18.0s)
+npm run advert -- --audio          # rebuild the soundtrack first
+npm run advert -- --ball --audio   # also re-render the 3D golf ball shot (slow)
+```
+
+- Every cue (seconds): `src/advert/timeline.json`, read by the scenes and the
+  audio build. Move a cue, then run with `--audio`.
+- Scenes: `src/advert/scenes/` (BallOpen, Statement, OpeningYear, Access,
+  LogoFinale), assembled in `src/advert/Advert.tsx`.
+- The opening golf ball is real 3D (three.js via `@remotion/three`):
+  `src/advert/components/GolfBall3D.tsx`, camera and launch in
+  `src/advert/BallShot.tsx`. Its dimple maps come from
+  `scripts/advert/golf_ball_maps.py`. The shot is pre-rendered to
+  `public/advert/ball-shot.mp4` so the main render needs no WebGL.
+- Audio: `scripts/advert/build_audio.py` synthesises the score and sound
+  design and masters to -14 LUFS. Output: `public/audio/advert/`
+  (`music.wav`, `sfx.wav`, `mix.wav`). No voiceover.
 
 ## Launch teaser
 

@@ -13,8 +13,9 @@ import { INK } from "../theme";
 const { width: VW, height: VH } = LOGO_VIEWBOX;
 
 // The Back 9 Club logo (traced from the supplied artwork) with independently
-// animatable layers: the green 9 draws down, the lettering opens from the
-// centre, and a band of green light can sweep across the letterforms.
+// animatable layers: the green 9 draws down (or flickers on like neon), the
+// lettering opens from the centre or wipes in from the left, and a band of
+// green light can sweep across the letterforms.
 export const Logo: React.FC<{
   width: number;
   /** 0..1 reveal of the white lettering (opens from the centre). */
@@ -25,11 +26,29 @@ export const Logo: React.FC<{
   sweep?: number | null;
   /** 0..1 soft green glow behind the mark. */
   glow?: number;
+  /** How the lettering is revealed: opening from the centre, or wiping in from the left. */
+  whiteFrom?: "center" | "left";
+  /** Opacity of the green 9 (for a neon flicker-on). */
+  greenOpacity?: number;
+  /** 0..1 neon glow around the green 9. */
+  greenGlow?: number;
   style?: React.CSSProperties;
-}> = ({ width, white, green, sweep = null, glow = 0, style }) => {
+}> = ({
+  width,
+  white,
+  green,
+  sweep = null,
+  glow = 0,
+  whiteFrom = "center",
+  greenOpacity = 1,
+  greenGlow = 0,
+  style,
+}) => {
   const id = useId().replace(/[^a-zA-Z0-9_-]/g, "");
   // Half-width of the opening (soft edges included), 0 when hidden.
   const half = (VW / 2 + 160) * Math.min(1, white * 1.08);
+  // Left-to-right wipe: leading edge position (soft edge included).
+  const edge = -320 + (VW + 640) * Math.min(1, white);
   const height = (width * VH) / VW;
 
   return (
@@ -53,15 +72,39 @@ export const Logo: React.FC<{
           <stop offset="0.94" stopColor="white" />
           <stop offset="1" stopColor="black" />
         </linearGradient>
+        <linearGradient id={`edge-${id}`} x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0" stopColor="white" />
+          <stop offset="0.85" stopColor="white" />
+          <stop offset="1" stopColor="black" />
+        </linearGradient>
         <mask id={`white-${id}`} maskUnits="userSpaceOnUse">
-          <rect
-            x={VW / 2 - half}
-            y={-100}
-            width={2 * half}
-            height={VH + 200}
-            fill={`url(#soft-${id})`}
-          />
+          {whiteFrom === "left" ? (
+            <rect
+              x={-320}
+              y={-100}
+              width={Math.max(0, edge + 320)}
+              height={VH + 200}
+              fill={`url(#edge-${id})`}
+            />
+          ) : (
+            <rect
+              x={VW / 2 - half}
+              y={-100}
+              width={2 * half}
+              height={VH + 200}
+              fill={`url(#soft-${id})`}
+            />
+          )}
         </mask>
+        <filter id={`neon-${id}`} x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation={18} result="wide" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation={5} result="tight" />
+          <feMerge>
+            <feMergeNode in="wide" />
+            <feMergeNode in="tight" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
         <clipPath id={`green-${id}`}>
           <rect x={0} y={-20} width={VW} height={(VH + 40) * green} />
         </clipPath>
@@ -96,7 +139,16 @@ export const Logo: React.FC<{
           EST 2026
         </text>
       </g>
-      <g clipPath={`url(#green-${id})`}>
+      <g clipPath={`url(#green-${id})`} opacity={greenOpacity}>
+        {greenGlow > 0.01 ? (
+          <g filter={`url(#neon-${id})`} opacity={greenGlow}>
+            <path
+              d={LOGO_GREEN_PATH}
+              transform={LOGO_PATH_TRANSFORM}
+              fill={LOGO_GREEN}
+            />
+          </g>
+        ) : null}
         <path
           d={LOGO_GREEN_PATH}
           transform={LOGO_PATH_TRANSFORM}

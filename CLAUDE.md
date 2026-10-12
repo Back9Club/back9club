@@ -26,8 +26,9 @@ Remotion 4 project for vertical (9:16) motion graphics. React + TypeScript.
 
 ## Layout
 
-- `src/Root.tsx`: composition registry (`LaunchTeaser`, `Fifteen`, `Story`,
-  `Showcase/TransitionsCSS`, `Showcase/TransitionsWebGL`)
+- `src/Root.tsx`: composition registry (`Advert`, `AdvertBallShot`,
+  `LaunchTeaser`, `Fifteen`, `Story`, `Showcase/TransitionsCSS`,
+  `Showcase/TransitionsWebGL`)
 - `src/fifteen/`: FIFTEEN, a 15s motion study (chapters in a `TransitionSeries`
   centred on downbeat cuts, countdown HUD). Cues in `src/fifteen/timeline.json`,
   soundtrack from `scripts/audio/build_fifteen.py` (reuses the instruments in
@@ -39,6 +40,24 @@ Remotion 4 project for vertical (9:16) motion graphics. React + TypeScript.
   `SafeArea`, `RevealText` (kinetic type), `LightLeakOverlay`
 - `src/compositions/`: `story/` (editable template driven by a zod schema)
   and `showcase/` (plays every transition)
+
+## Advert (`Advert`)
+
+18s / 540 frames, no voiceover. Cues (seconds) live in `src/advert/timeline.json`,
+read by the scenes (`src/advert/timeline.ts`) and by
+`scripts/advert/build_audio.py`. Scenes use the teaser's `Scene`/`useTime`.
+
+- Scenes: `src/advert/scenes/`. The opening ball is a three.js shot
+  (`AdvertBallShot`, `src/advert/BallShot.tsx`) pre-rendered to
+  `public/advert/ball-shot.mp4` and played with `OffthreadVideo`, so the main
+  render is CSS-only. Re-render it with `npm run advert -- --ball` (swangle,
+  about 7 min).
+- Type shadows go on a wrapper *outside* `MaskLine` (`TYPE_SHADOW` in
+  `src/advert/style.ts`); a `textShadow` inside the mask is clipped into a box.
+- `Logo` takes `whiteFrom="left"`, `greenOpacity` and `greenGlow` for the neon
+  reveal; defaults keep the teaser unchanged.
+- `npm run advert [-- --audio]` renders `out/back9club-advert.mp4` (exactly
+  18.0s, about 2 min here).
 
 ## Launch teaser (`LaunchTeaser`)
 

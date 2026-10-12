@@ -1,0 +1,30 @@
+{
+  "fps": 30,
+  "durationInFrames": 540,
+  "bpm": 100,
+  "ballShotSeconds": 3.6,
+  "cues": {
+    "rimIn": 0.1,
+    "keyIn": 0.9,
+    "kicker": 1.5,
+    "swing": 2.82,
+    "strike": 3.0,
+    "taking": 3.6,
+    "hastings": 4.2,
+    "scene": 4.8,
+    "statementOut": 6.75,
+    "opening": 7.2,
+    "early": 7.8,
+    "yearLand": 8.4,
+    "openingOut": 10.2,
+    "memberships": 10.8,
+    "walkIns": 11.4,
+    "accessOut": 13.2,
+    "neon": 13.95,
+    "logoOn": 14.4,
+    "sweep": 14.55,
+    "watch": 15.6,
+    "footer": 16.2,
+    "finalHit": 16.8
+  }
+}

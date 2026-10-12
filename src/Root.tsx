@@ -11,6 +11,12 @@ import {
   storyDefaults,
   storySchema,
 } from "./compositions/story/Story";
+import { Advert } from "./advert/Advert";
+import { BallShot } from "./advert/BallShot";
+import {
+  BALL_SHOT_SECONDS,
+  DURATION_IN_FRAMES as ADVERT_FRAMES,
+} from "./advert/timeline";
 import { VIDEO } from "./config";
 import { Fifteen } from "./fifteen/Fifteen";
 import { DURATION_IN_FRAMES as FIFTEEN_FRAMES } from "./fifteen/timeline";
@@ -30,6 +36,20 @@ export const RemotionRoot: React.FC = () => {
         schema={launchTeaserSchema}
         defaultProps={{ voiceover: true }}
       />
+      <Folder name="Advert">
+        <Composition
+          id="Advert"
+          component={Advert}
+          {...VIDEO}
+          durationInFrames={ADVERT_FRAMES}
+        />
+        <Composition
+          id="AdvertBallShot"
+          component={BallShot}
+          {...VIDEO}
+          durationInFrames={Math.round(BALL_SHOT_SECONDS * VIDEO.fps)}
+        />
+      </Folder>
       <Composition
         id="Fifteen"
         component={Fifteen}
