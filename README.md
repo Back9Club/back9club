@@ -42,6 +42,8 @@ npm run advert -- --ball --audio   # also re-render the 3D golf ball shot (slow)
   audio build. Move a cue, then run with `--audio`.
 - Scenes: `src/advert/scenes/` (BallOpen, Statement, OpeningYear, Access,
   LogoFinale), assembled in `src/advert/Advert.tsx`.
+- Every word slams in on its own cue on the beat grid (`Punch`), labels ripple
+  in letter by letter (`Ripple`), and 2027 spins and locks like a counter.
 - The opening golf ball is real 3D (three.js via `@remotion/three`):
   `src/advert/components/GolfBall3D.tsx`, camera and launch in
   `src/advert/BallShot.tsx`. Its dimple maps come from

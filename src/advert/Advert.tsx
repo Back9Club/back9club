@@ -53,7 +53,7 @@ export const Advert: React.FC = () => {
       <Scene name="1 · From darkness" from={0} to={3.6}>
         <BallOpen />
       </Scene>
-      <Scene name="2 · Taking over" from={3.55} to={7.1}>
+      <Scene name="2 · Taking over" from={3.55} to={7.25}>
         <Statement />
       </Scene>
       <Scene name="3 · Opening early 2027" from={6.85} to={10.55}>

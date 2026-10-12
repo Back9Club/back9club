@@ -54,6 +54,12 @@ read by the scenes (`src/advert/timeline.ts`) and by
   about 7 min).
 - Type shadows go on a wrapper *outside* `MaskLine` (`TYPE_SHADOW` in
   `src/advert/style.ts`); a `textShadow` inside the mask is clipped into a box.
+- Kinetic type (`src/advert/components/`): `Punch` slams a word in on a cue
+  (spring overshoot from `snap()`), `Ripple` rises tracked labels letter by
+  letter, `shakeAll()` / `beatPulse()` kick the frame on hits and beats. Every
+  word has its own cue on the 100 BPM grid (beats, 8ths, 16ths). The 2027
+  counter's spin/lock curve is `yearRoll` in `timeline.json`; the audio
+  ratchet reads the same values.
 - `Logo` takes `whiteFrom="left"`, `greenOpacity` and `greenGlow` for the neon
   reveal; defaults keep the teaser unchanged.
 - `npm run advert [-- --audio]` renders `out/back9club-advert.mp4` (exactly

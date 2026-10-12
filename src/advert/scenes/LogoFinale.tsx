@@ -2,9 +2,11 @@ import React from "react";
 import { AbsoluteFill, interpolate } from "remotion";
 import { EASE } from "../../motion/easing";
 import { Logo } from "../../teaser/components/Logo";
-import { MaskLine } from "../../teaser/components/MaskLine";
-import { kick, lerp, prog, useTime } from "../../teaser/components/time";
+import { kick, prog, useTime } from "../../teaser/components/time";
 import { DISPLAY, INK, LABEL } from "../../teaser/theme";
+import { shakeAll } from "../components/kinetics";
+import { Punch } from "../components/Punch";
+import { Ripple } from "../components/Ripple";
 import { TYPE_SHADOW } from "../style";
 import { CUE } from "../timeline";
 
@@ -19,14 +21,15 @@ const NEON_VALS = [0, 0.85, 0.1, 0.95, 0.25, 1, 0.6, 1, 1];
 
 const WORDS = [
   { text: "WATCH", at: CUE.watch },
-  { text: "THIS", at: CUE.watch + 0.2 },
-  { text: "SPACE.", at: CUE.watch + 0.4 },
+  { text: "THIS", at: CUE.this },
+  { text: "SPACE.", at: CUE.space },
 ];
 
 // Scene 5 (13.4-18s): the payoff. A green spotlight finds a glossy black
 // floor; the 9 flickers on like neon, the lettering wipes in on the biggest
 // hit, light sweeps across the name, the logo reflects in the floor, then the
-// call to action and the date. Holds to the end.
+// call to action slams in word by word on 16ths and the date ripples in.
+// Holds to the end.
 export const LogoFinale: React.FC = () => {
   const t = useTime();
 
@@ -79,7 +82,11 @@ export const LogoFinale: React.FC = () => {
   );
 
   return (
-    <AbsoluteFill style={{ transform: `scale(${push * (1 + 0.012 * hit)})` }}>
+    <AbsoluteFill
+      style={{
+        transform: `${shakeAll(t, [[CUE.space, 6]])} scale(${push * (1 + 0.012 * hit)})`,
+      }}
+    >
       {/* Spotlight cone and the pool of light it throws on the floor. */}
       <AbsoluteFill style={{ opacity: stage }}>
         {/* A soft overhead pool of green light, fading out before the floor. */}
@@ -173,22 +180,16 @@ export const LogoFinale: React.FC = () => {
           display: "flex",
           justifyContent: "center",
           gap: "0.24em",
-          fontSize: 92,
+          fontSize: 96,
           filter: TYPE_SHADOW,
         }}
       >
         {WORDS.map((w) => (
-          <MaskLine key={w.text} progress={prog(t, w.at, 0.55)}>
-            <div
-              style={{
-                ...DISPLAY,
-                fontSize: 92,
-                color: INK.white,
-              }}
-            >
+          <Punch key={w.text} t={t} at={w.at} from={1.6}>
+            <div style={{ ...DISPLAY, fontSize: 96, color: INK.white }}>
               {w.text}
             </div>
-          </MaskLine>
+          </Punch>
         ))}
       </div>
 
@@ -202,24 +203,25 @@ export const LogoFinale: React.FC = () => {
           justifyContent: "center",
           alignItems: "center",
           gap: 24,
-          opacity: 0.78 * footer,
+          opacity: 0.9,
         }}
       >
         <div
-          style={{ width: 64 * footer, height: 1, backgroundColor: "#27B936" }}
+          style={{ width: 64 * footer, height: 2, backgroundColor: "#27B936" }}
         />
-        <div
+        <Ripple
+          t={t}
+          at={CUE.footer}
+          text="Opening early 2027"
           style={{
             ...LABEL,
-            fontSize: 26,
-            letterSpacing: `${lerp(0.6, 0.42, footer)}em`,
-            marginRight: `-${lerp(0.6, 0.42, footer)}em`,
+            fontSize: 30,
+            letterSpacing: "0.36em",
+            marginRight: "-0.36em",
           }}
-        >
-          Opening early 2027
-        </div>
+        />
         <div
-          style={{ width: 64 * footer, height: 1, backgroundColor: "#27B936" }}
+          style={{ width: 64 * footer, height: 2, backgroundColor: "#27B936" }}
         />
       </div>
     </AbsoluteFill>

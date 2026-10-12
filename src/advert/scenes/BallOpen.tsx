@@ -3,6 +3,7 @@ import { AbsoluteFill, OffthreadVideo, staticFile } from "remotion";
 import { EASE } from "../../motion/easing";
 import { kick, lerp, prog, useTime } from "../../teaser/components/time";
 import { Trajectory } from "../../teaser/components/Trajectory";
+import { Ripple } from "../components/Ripple";
 import { INK, LABEL } from "../../teaser/theme";
 import { CUE } from "../timeline";
 
@@ -21,9 +22,7 @@ const FLIGHT = `M ${BALL.x} ${BALL.y} C 700 520, 880 120, 1260 -320`;
 export const BallOpen: React.FC = () => {
   const t = useTime();
 
-  const kicker =
-    prog(t, CUE.kicker, 0.9) *
-    (1 - prog(t, CUE.swing - 0.2, 0.3, EASE.inCubic));
+  const kickerOut = prog(t, CUE.swing - 0.2, 0.3, EASE.inCubic);
   const swing = prog(t, CUE.swing, CUE.strike - CUE.swing + 0.02, EASE.inCubic);
   const swingFade = 1 - prog(t, CUE.strike, 0.25, EASE.outCubic);
   const flash = kick(t, CUE.strike, 0.09);
@@ -34,28 +33,48 @@ export const BallOpen: React.FC = () => {
     <AbsoluteFill>
       <OffthreadVideo src={staticFile("advert/ball-shot.mp4")} muted />
 
+      {/* Hook from the first frames: where and what, over the darkness. A soft
+          shade keeps it legible when the ball fills the frame behind it. */}
       <div
         style={{
           position: "absolute",
-          top: 300,
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 520,
+          opacity: 1 - kickerOut,
+          background:
+            "linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0) 100%)",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          top: 290,
           left: 0,
           right: 0,
           display: "flex",
           justifyContent: "center",
-          opacity: kicker,
+          opacity: 1 - kickerOut,
+          filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.8))",
         }}
       >
-        <div
+        <Ripple
+          t={t}
+          at={CUE.kicker}
+          text="Indoor golf • Hastings"
+          stagger={0.022}
+          dur={0.4}
+          colorAt={(i) => (i === 12 ? "#27B936" : undefined)}
           style={{
             ...LABEL,
-            fontSize: 26,
-            letterSpacing: `${lerp(0.75, 0.5, kicker)}em`,
-            marginRight: `-${lerp(0.75, 0.5, kicker)}em`,
+            fontSize: 36,
+            fontWeight: 700,
+            letterSpacing: "0.3em",
+            marginRight: "-0.3em",
             color: INK.white,
           }}
-        >
-          Indoor golf <span style={{ color: "#27B936" }}>·</span> Hastings
-        </div>
+        />
       </div>
 
       {swing > 0 && swingFade > 0 ? (

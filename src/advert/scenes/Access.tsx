@@ -1,9 +1,11 @@
 import React from "react";
 import { AbsoluteFill } from "remotion";
 import { EASE } from "../../motion/easing";
-import { MaskLine } from "../../teaser/components/MaskLine";
 import { kick, lerp, prog, useTime } from "../../teaser/components/time";
 import { DISPLAY, INK, LABEL } from "../../teaser/theme";
+import { beatPulse, shakeAll, snap } from "../components/kinetics";
+import { Punch } from "../components/Punch";
+import { Ripple } from "../components/Ripple";
 import { TYPE_SHADOW } from "../style";
 import { CUE } from "../timeline";
 
@@ -13,20 +15,20 @@ const BOTTOM_Y = 1060;
 const WORD_SIZE = 128;
 
 const Panel: React.FC<{
+  t: number;
   y: number;
-  /** 0..1 slide-in progress. */
-  enter: number;
+  /** When the word lands; the panel arrives just before. */
+  at: number;
   /** 0..1 slide-out progress. */
   exit: number;
   /** +1 slides in from the left, -1 from the right. */
   from: 1 | -1;
-  index: string;
   label: string;
-  wordIn: number;
   children: React.ReactNode;
-}> = ({ y, enter, exit, from, index, label, wordIn, children }) => {
+}> = ({ t, y, at, exit, from, label, children }) => {
+  const enter = prog(t, at - 0.14, 0.32, EASE.outExpo);
   const x = (1 - enter) * -1100 * from + exit * 1100 * from;
-  const edge = prog(enter, 0.55, 0.45, EASE.linear);
+  const edge = prog(t, at - 0.02, 0.3, EASE.outCubic);
   return (
     <div
       style={{
@@ -47,14 +49,14 @@ const Panel: React.FC<{
           borderBottom: "1px solid rgba(244,245,240,0.06)",
         }}
       />
-      {/* A line of light travels along the panel's top edge as it lands. */}
+      {/* A line of light races along the panel's top edge as the word lands. */}
       <div
         style={{
           position: "absolute",
           top: -1,
           left: from === 1 ? `${lerp(-20, 100, edge)}%` : undefined,
           right: from === -1 ? `${lerp(-20, 100, edge)}%` : undefined,
-          width: 220,
+          width: 260,
           height: 2,
           background:
             "linear-gradient(90deg, rgba(155,245,191,0), #9BF5BF, rgba(155,245,191,0))",
@@ -70,53 +72,62 @@ const Panel: React.FC<{
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          gap: 18,
+          gap: 16,
         }}
       >
-        <div
+        <Ripple
+          t={t}
+          at={at + 0.05}
+          text={label}
           style={{
             ...LABEL,
-            fontSize: 22,
-            letterSpacing: "0.42em",
-            marginRight: "-0.42em",
+            fontSize: 28,
+            fontWeight: 700,
+            letterSpacing: "0.34em",
+            marginRight: "-0.34em",
             color: "#27B936",
-            opacity: wordIn,
           }}
-        >
-          {index} · {label}
-        </div>
+        />
         <div style={{ filter: TYPE_SHADOW }}>
-          <MaskLine progress={wordIn}>
+          <Punch t={t} at={at} from={1.4}>
             <div style={{ ...DISPLAY, fontSize: WORD_SIZE, color: INK.white }}>
               {children}
             </div>
-          </MaskLine>
+          </Punch>
         </div>
       </div>
     </div>
   );
 };
 
-// Scene 4 (10.4-13.4s): two ways to play. Glass panels sweep in from opposite
-// sides on the beat, MEMBERSHIPS then WALK-INS, joined by a green ampersand;
-// both slide away before the logo.
+// Scene 4 (10.6-13.5s): two ways to play. Glass panels whip in from opposite
+// sides and each word slams onto its panel on the beat, MEMBERSHIPS then
+// WALK-INS, with the green ampersand popping on the 8th between them. The
+// frame pulses on every beat while it holds; both panels whip away.
 export const Access: React.FC = () => {
   const t = useTime();
-  const exit = prog(t, CUE.accessOut, 0.35, EASE.inCubic);
-  const amp = prog(t, CUE.memberships + 0.3, 0.5, EASE.outBack);
+  const exit = prog(t, CUE.accessOut, 0.25, EASE.inCubic);
+  const amp = snap(t, CUE.amp, 5, 0.45);
   const hit =
-    0.012 * (kick(t, CUE.memberships, 0.16) + kick(t, CUE.walkIns, 0.16));
+    0.02 * (kick(t, CUE.memberships, 0.12) + kick(t, CUE.walkIns, 0.12)) +
+    0.01 * beatPulse(t, CUE.walkIns + 0.3, CUE.accessOut);
 
   return (
-    <AbsoluteFill style={{ transform: `scale(${1 + hit})` }}>
+    <AbsoluteFill
+      style={{
+        transform: `${shakeAll(t, [
+          [CUE.memberships, 7],
+          [CUE.walkIns, 7],
+        ])} scale(${1 + hit})`,
+      }}
+    >
       <Panel
+        t={t}
         y={TOP_Y}
-        enter={prog(t, CUE.memberships - 0.18, 0.55, EASE.outExpo)}
+        at={CUE.memberships}
         exit={exit}
         from={1}
-        index="01"
-        label="Join"
-        wordIn={prog(t, CUE.memberships, 0.55)}
+        label="01 · Join"
       >
         MEMBERSHIPS
       </Panel>
@@ -128,8 +139,8 @@ export const Access: React.FC = () => {
           right: 0,
           display: "flex",
           justifyContent: "center",
-          opacity: amp * (1 - exit),
-          transform: `scale(${lerp(0.6, 1, amp)})`,
+          opacity: Math.min(1, amp * 3) * (1 - exit),
+          transform: `scale(${lerp(0.3, 1, amp)}) rotate(${lerp(-25, 0, amp)}deg)`,
         }}
       >
         <div
@@ -145,13 +156,12 @@ export const Access: React.FC = () => {
         </div>
       </div>
       <Panel
+        t={t}
         y={BOTTOM_Y}
-        enter={prog(t, CUE.walkIns - 0.18, 0.55, EASE.outExpo)}
+        at={CUE.walkIns}
         exit={exit}
         from={-1}
-        index="02"
-        label="Drop in"
-        wordIn={prog(t, CUE.walkIns, 0.55)}
+        label="02 · Drop in"
       >
         WALK-INS
       </Panel>
